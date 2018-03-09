@@ -9,7 +9,7 @@ from tornado.options import define, options
 
 from rx import Observable
 
-from database import mongodb
+from domain.repository import country
 
 
 define("port", default=8888, help="port", type=int)
@@ -59,12 +59,9 @@ def main():
     tornado.options.parse_command_line()
     tornado.options.parse_config_file("server.conf")
 
-    db_con = mongodb.Connection().get_instance()
-    print(db_con.countries.find_one())
-    db2 = mongodb.Connection().get_instance()
-    cursor = db2.countries.find()
-    for document in cursor:
-        print(document)
+    countries = country.find_all()
+    for ctry in countries:
+        print(ctry.name)
 
     application = tornado.web.Application([
         (r"/", HelloWorldHandler),
