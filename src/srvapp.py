@@ -9,8 +9,12 @@ from tornado.options import define, options
 
 from rx import Observable
 
+from database import mongodbconnection
+
 
 define("port", default=8888, help="port", type=int)
+define("mongoDb", default="mongodb+srv://localhost/test", help="MongoDB Connection String")
+define("mongoDbDatabase", default="", help="Database")
 
 
 class HelloWorldHandler(tornado.web.RequestHandler):
@@ -44,10 +48,24 @@ class ObservableHandler(tornado.web.RequestHandler):
             .filter(lambda string: len(string) > 2) \
             .subscribe(lambda value: self.write(value + " "))
 
+        # yolo = Observable.from_(["Knights", "Who", "Say", "Ni"])
+        # intervals = Observable.interval(1000)
+        # Observable.zip(yolo, intervals, lambda s, i: (s, i)) \
+        #     .subscribe(lambda value: print(value))
+
 
 def main():
     """Main / entry """
     tornado.options.parse_command_line()
+    tornado.options.parse_config_file("server.conf")
+
+    db_con = mongodbconnection.Connection().get_instance()
+    print(db_con.countries.find_one())
+    db2 = mongodbconnection.Connection().get_instance()
+    cursor = db2.countries.find()
+    for document in cursor:
+        print(document)
+
     application = tornado.web.Application([
         (r"/", HelloWorldHandler),
         (r"/json", JsonEndpointHandler),
