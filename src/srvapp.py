@@ -9,7 +9,7 @@ from tornado.options import define, options
 
 from rx import Observable
 
-from domain.repository import country
+from domain.repository import CountryRepository
 
 
 define("port", default=8888, help="port", type=int)
@@ -59,9 +59,10 @@ def main():
     tornado.options.parse_command_line()
     tornado.options.parse_config_file("server.conf")
 
-    countries = country.find_all()
-    for ctry in countries:
-        print(ctry.name)
+    country_repo = CountryRepository()
+    countries = country_repo.find_all()
+    for country in countries:
+        print(str(country.uid) + " " + country.name)
 
     application = tornado.web.Application([
         (r"/", HelloWorldHandler),
