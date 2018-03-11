@@ -13,6 +13,7 @@ class Country:
             self.uid = document['_id']
         self.name = document['name']
 
+
 class City:
     """ City """
 

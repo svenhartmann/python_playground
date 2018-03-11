@@ -61,7 +61,6 @@ def main():
     tornado.options.parse_config_file("server.conf")
 
     country_repo = CountryRepository()
-    city_repo = CityRepository()
 
     one = country_repo.find_one('5aa2ed574b5ce33576bbaa5f')
     print(str(one.uid) + " " + one.name)
@@ -77,7 +76,8 @@ def main():
         print(str(country.uid) + " " + country.name)
 
     print('----- Cities')
-    print(city_repo.save(City({"name": "Bern"})))
+    city_repo = CityRepository()
+    print(city_repo.save(City({"name": "Paris"})))
     cities = city_repo.find_all()
     for city in cities:
         print(str(city.uid) + " " + city.name)
