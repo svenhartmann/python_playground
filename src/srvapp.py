@@ -9,7 +9,8 @@ from tornado.options import define, options
 
 from rx import Observable
 
-from domain.repository import CountryRepository
+from domain.repository import CountryRepository, CityRepository
+from domain.model import Country, City
 
 
 define("port", default=8888, help="port", type=int)
@@ -60,9 +61,26 @@ def main():
     tornado.options.parse_config_file("server.conf")
 
     country_repo = CountryRepository()
+    city_repo = CityRepository()
+
+    one = country_repo.find_one('5aa2ed574b5ce33576bbaa5f')
+    print(str(one.uid) + " " + one.name)
+    print('-----')
+
+    print(country_repo.save(Country({"name": "Germany"})))
+    print(country_repo.save(Country({"name": "Switzerland"})))
+    print(country_repo.save(Country({"name": "France"})))
+    print('-----')
+
     countries = country_repo.find_all()
     for country in countries:
         print(str(country.uid) + " " + country.name)
+
+    print('----- Cities')
+    print(city_repo.save(City({"name": "Bern"})))
+    cities = city_repo.find_all()
+    for city in cities:
+        print(str(city.uid) + " " + city.name)
 
     application = tornado.web.Application([
         (r"/", HelloWorldHandler),
