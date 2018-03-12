@@ -10,8 +10,12 @@ from domain.model import Country, City
 
 class AbstractMongoRepository:
     """ Abstract Repository """
-    model_cls = None
+    model = None
     table = ''
+
+    def __init__(self):
+        """ Some magic """
+        self.model = globals()[type(self).__name__.replace('Repository', '')]
 
     def find_all(self):
         """ Find all """
@@ -19,7 +23,7 @@ class AbstractMongoRepository:
 
         documents = []
         for document in db_con[self.table].find():
-            model = self.model_cls(document)
+            model = self.model(document)
             documents.append(model)
 
         return documents
@@ -27,7 +31,7 @@ class AbstractMongoRepository:
     def find_one(self, _id):
         """ Find one domain model by id """
         db_con = mongodb.Connection().get_instance()
-        return self.model_cls(db_con[self.table].find_one({'_id': ObjectId(_id)}))
+        return self.model(db_con[self.table].find_one({'_id': ObjectId(_id)}))
 
     def save(self, document):
         """ Persist a domain model """
@@ -36,10 +40,10 @@ class AbstractMongoRepository:
 
 
 class CountryRepository(AbstractMongoRepository):
-    model_cls = Country
+    """ CountryRepository """
     table = 'countries'
 
 
 class CityRepository(AbstractMongoRepository):
-    model_cls = City
+    """ CityRepository """
     table = 'cities'

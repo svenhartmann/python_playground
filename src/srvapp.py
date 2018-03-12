@@ -68,16 +68,18 @@ def main():
 
     print(country_repo.save(Country({"name": "Germany"})))
     print(country_repo.save(Country({"name": "Switzerland"})))
-    print(country_repo.save(Country({"name": "France"})))
+    print(country_repo.save(Country({"name": "Austria", "capital": City({"name": "Vienna"})})))
     print('-----')
 
     countries = country_repo.find_all()
     for country in countries:
         print(str(country.uid) + " " + country.name)
+        if hasattr(country, 'capital'):
+            print('Capital: ' + country.capital.name)
 
     print('----- Cities')
     city_repo = CityRepository()
-    print(city_repo.save(City({"name": "Paris"})))
+    print(city_repo.save(City({"name": "San José"})))
     cities = city_repo.find_all()
     for city in cities:
         print(str(city.uid) + " " + city.name)
