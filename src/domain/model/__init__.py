@@ -59,6 +59,24 @@ class Developer(Person):
         super().__init__(firstname, lastname)
         self.pay = pay
 
+    @property
+    def fullname(self):
+        """ Method as property """
+        return '{} {}'.format(self.firstname, self.lastname)
+
+    @fullname.setter
+    def fullname(self, fullname):
+        """ Setter """
+        firstname, lastname = fullname.split(' ')
+        self.firstname = firstname
+        self.lastname = lastname
+
     def say_hello(self):
         hello_str = super().say_hello()
         return hello_str + ' and i earn {} € per year.'.format(self.pay)
+
+    def __repr__(self):
+        return "Developer('{}', '{}', '{}')".format(self.firstname, self.lastname, self.pay)
+
+    def __str__(self):
+        return self.fullname

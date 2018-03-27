@@ -20,3 +20,10 @@ class TestSimplecalc(unittest.TestCase):
                          'Hi my name is Hans Wurst and i earn 100000 € per year.')
 
         self.assertTrue(issubclass(Developer, Person))
+
+        self.assertEqual(repr(developer), "Developer('Hans', 'Wurst', '100000')")
+        self.assertEqual(str(developer), "Hans Wurst")
+
+        developer.fullname = 'Hans Peter'
+        self.assertEqual(developer.fullname, 'Hans Peter')
+        self.assertNotEqual(str(developer), "Hans Wurst")
