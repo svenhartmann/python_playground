@@ -19,7 +19,7 @@ class AbstractMongoRepository:
 
     def find_all(self):
         """ Find all """
-        db_con = mongodb.Connection().get_instance()
+        db_con = mongodb.Connection.get_instance()
 
         documents = []
         for document in db_con[self.table].find():
@@ -30,12 +30,12 @@ class AbstractMongoRepository:
 
     def find_one(self, _id):
         """ Find one domain model by id """
-        db_con = mongodb.Connection().get_instance()
+        db_con = mongodb.Connection.get_instance()
         return self.model(db_con[self.table].find_one({'_id': ObjectId(_id)}))
 
     def save(self, document):
         """ Persist a domain model """
-        db_con = mongodb.Connection().get_instance()
+        db_con = mongodb.Connection.get_instance()
         return db_con[self.table].insert_one(document.__dict__).inserted_id
 
 
