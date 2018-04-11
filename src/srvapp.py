@@ -88,7 +88,7 @@ def main():
 
     print("City Instances: {}".format(City.instances))
 
-    print(help(City))
+    # print(help(City))
 
     application = tornado.web.Application([
         (r"/", HelloWorldHandler),
