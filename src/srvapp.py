@@ -80,11 +80,11 @@ def main():
     print('----- Cities')
     city_repo = CityRepository()
     print(city_repo.save(City({"name": "San José"})))
-    cities = city_repo.find_all()
-    for city in cities:
-        print(str(city.uid) + " " + city.name)
+    #cities = city_repo.find_all()
+    #for city in cities:
+        # print(str(city.uid) + " " + city.name)
         # instance var, does not change class var
-        city.instances = 9
+        #city.instances = 9
 
     print("City Instances: {}".format(City.instances))
 
