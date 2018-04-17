@@ -64,12 +64,12 @@ def main():
 
     one = country_repo.find_one('5aa2ed574b5ce33576bbaa5f')
     print(str(one.uid) + " " + one.name)
-    print('-----')
+    print('--------')
 
     print(country_repo.save(Country({"name": "Germany"})))
     print(country_repo.save(Country({"name": "Switzerland"})))
     print(country_repo.save(Country({"name": "Austria", "capital": City({"name": "Vienna"})})))
-    print('-----')
+    print('---------')
 
     countries = country_repo.find_all()
     for country in countries:
